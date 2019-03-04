@@ -36,7 +36,7 @@
         <div class="row">
             <form class="col-md-12">
                 <div class="form-group" id="questionGroup"></div>
-                <button class="btn btn-primary btn-lg w-100" id="submit">Submit</button>
+                <button type="button" class="btn btn-primary btn-lg w-100" id="submit" data-toggle="modal" data-target="#matchModel">Submit</button>
             </form>
         </div>
         <hr>
@@ -48,8 +48,27 @@
 
         </div>
     </div>
-    <script type="text/javascript">
+    <div class="modal fade"  id="matchModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Best Match</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">  </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
+
+
+    <script type="text/javascript">
+   $( document ).ready(function() {
         var question = ["Your mind is always buzzing with unexplored ideas and plans",
             "Generally speaking, you rely more on your experience than your imagination",
             "You find it easy to stay relaxed and focused even when there is some pressure",
@@ -78,36 +97,36 @@
             "photo": "",
             "scores": [],
         }
-        
 
         $("#submit").on("click", function (event) {
-            
-            if(!validationCheck("#name", "Name"))
+
+            if (!validationCheck("#name", "Name"))
                 return false;
-            if(!validationCheck("#photo", "Photo"))
+            if (!validationCheck("#photo", "Photo"))
                 return false;
             for (var i = 1; i <= 10; i++) {
                 var str = "#answer" + i;
-                var field = "Question "+ i;
-                if(!validationCheck(str, field)) 
-                return false;
+                var field = "Question " + i;
+                if (!validationCheck(str, field))
+                    return false;
             }
-              $.post("/api/friends", friendSurvey, function(data) {
-                alert("Closet Match..."+ JSON.stringify(data.name));
-            }); 
+            $.post("/api/friends", friendSurvey, function (data) {
+            //    var data= {"name":"adASa","photo":"asdads","scores":["1","1","2","3","2","2","3","3","3","2"]};
+                $(".modal-body").html("<h3>"+ data.name+"</h3>"+"<img alt='Match Image' src='"+ data.photo+"'/>");
+            });
 
         });
 
         let validationCheck = function (str, elementName) {
             $(str).removeClass("border border-danger");
             if ($(str).val()) {
-                   
+
                 if (elementName == "Name") friendSurvey.name = $(str).val().trim();
                 else if (elementName == "Photo") friendSurvey.photo = $(str).val().trim();
-                else   friendSurvey.scores.push(parseInt($(str).val().trim()));
+                else friendSurvey.scores.push(parseInt($(str).val().trim()));
                 // console.log("friendSurvey : " , friendSurvey);
                 return true;
-                
+
             }
             else {
                 $(str).addClass("border border-danger");
@@ -115,6 +134,7 @@
                 return false;
             }
         }
+    });
     </script>
 </body>
 

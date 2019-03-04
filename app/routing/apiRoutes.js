@@ -29,15 +29,15 @@ module.exports = function(app) {
         totalDiff += Math.abs(eachFriendScores[score] - newFriend.scores[score]);
       }
 
-      console.log("eachFriendScores[score]", eachFriendScores);
-      console.log("newFriend.scores[score]", newFriend.scores);
-      console.log("\n eachDiff : ",totalDiff);
+        console.log("eachFriendScores[score]", eachFriendScores);
+      // console.log("newFriend.scores[score]", newFriend.scores);
+      // console.log("\n eachDiff : ",totalDiff);
       if(leastDiff == 0 || (totalDiff < leastDiff))
       {
         leastDiff= totalDiff; 
         closestMatch = friendArray[index];
       }
-      console.log("\n leastDiff: ",leastDiff);
+      // console.log("\n leastDiff: ",leastDiff);
     }
     return closestMatch;
   }

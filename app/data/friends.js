@@ -1,8 +1,8 @@
 
 // Initial Array
 var friendArray = [{
-    "name":"Ahmed",
-    "photo":"https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/6/005/064/1bd/3435aa3.jpg",
+    "name":"Vampi",
+    "photo":"http://clipart-library.com/images/BpT5gAki9.jpg",
     "scores":[
         "5",
         "1",
@@ -17,8 +17,8 @@ var friendArray = [{
       ]
   },
   {
-    "name": "thomas",
-    "photo": "facebook.com",
+    "name": "Thomas",
+    "photo": "http://clipart-library.com/images/8cAbe4d4i.jpg",
     "scores": [
     "2",
     "2",
@@ -34,7 +34,7 @@ var friendArray = [{
     },
     {
       "name": "Ali",
-      "photo": "https://www.facebook.com/photo.php?fbid=10155923990846711&set=a.428151716710&type=3&theater",
+      "photo": "http://clipart-library.com/images/Acbp9znc4.jpg",
       "scores": [
       "4",
       "2",
