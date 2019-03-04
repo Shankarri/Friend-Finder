@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Friend Finder</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+        <h3>Survey Questions</h3>
+        <hr>
+        <h4><strong>About You </strong></h4>
+        <div class="row">
+            <form class="col-md-12">
+                <div class="form-group">
+                    <label for="name">Name (Required)</label>
+                    <input type="text" class="form-control" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="uniqueID">Link to Photo Image (Required) </label>
+                    <input type="text" class="form-control" id="photo" required>
+                </div>
+            </form>
+        </div>
+        <hr>
+
+        <div class="row">
+            <form class="col-md-12">
+                <div class="form-group" id="questionGroup"></div>
+                <button class="btn btn-primary btn-lg w-100" id="submit">Submit</button>
+            </form>
+        </div>
+        <hr>
+        <div class="row mb-3" id="api_links">
+            <div class="col-md-12">
+                <a href="/api/friends"> API Friends List</a> |
+                <a href="https://github.com/Shankarri/Friend-Finder">GitHub Repo</a>
+            </div>
+
+        </div>
+    </div>
+    <script type="text/javascript">
+
+        var question = ["Your mind is always buzzing with unexplored ideas and plans",
+            "Generally speaking, you rely more on your experience than your imagination",
+            "You find it easy to stay relaxed and focused even when there is some pressure",
+            "You rarely do something just out of sheer curiosity",
+            "People can rarely upset you",
+            "It is often difficult for you to relate to other people’s feelings",
+            "In a discussion, truth should be more important than people’s sensitivities",
+            "You rarely get carried away by fantasies and ideas",
+            "You think that everyone’s views should be respected regardless of whether they are supported by facts or not",
+            "You feel more energetic after spending time with a group of people"];
+
+        for (var index = 1; index <= question.length; index++) {
+            $("#questionGroup").append("<h5><strong> Question " + index + "</strong> </h5>");
+            $("#questionGroup").append("<label>" + question[index - 1] + "</label>");
+            $("#questionGroup").append("<select id='answer" + index + "' class='form-control w-25 mb-3'>" +
+                "<option disabled selected> Select an option </option>" +
+                "<option value = '1'> 1 (Strongly Disagree) </option>" +
+                "<option value = '2'> 2 </option>" +
+                "<option value = '3'> 3 </option>" +
+                "<option value = '4'> 4 </option>" +
+                "<option value = '5'> 5 (Strongly Agree) </option>" +
+                "</select>");
+        }
+        var friendSurvey = {
+            "name": "",
+            "photo": "",
+            "scores": [],
+        }
+        
+
+        $("#submit").on("click", function (event) {
+            
+            if(!validationCheck("#name", "Name"))
+                return false;
+            if(!validationCheck("#photo", "Photo"))
+                return false;
+            for (var i = 1; i <= 10; i++) {
+                var str = "#answer" + i;
+                var field = "Question "+ i;
+                if(!validationCheck(str, field)) 
+                return false;
+            }
+              $.post("/api/friends", friendSurvey, function(data) {
+                alert("Closet Match..."+ JSON.stringify(data.name));
+            }); 
+
+        });
+
+        let validationCheck = function (str, elementName) {
+            $(str).removeClass("border border-danger");
+            if ($(str).val()) {
+                   
+                if (elementName == "Name") friendSurvey.name = $(str).val().trim();
+                else if (elementName == "Photo") friendSurvey.photo = $(str).val().trim();
+                else   friendSurvey.scores.push(parseInt($(str).val().trim()));
+                // console.log("friendSurvey : " , friendSurvey);
+                return true;
+                
+            }
+            else {
+                $(str).addClass("border border-danger");
+                alert("Please Answer " + elementName + " Field");
+                return false;
+            }
+        }
+    </script>
+</body>
+
+</html>
