@@ -1,5 +1,5 @@
 
-// Initial Array
+// Initial Array with few values
 var friendArray = [{
     "name":"Vampi",
     "photo":"http://clipart-library.com/images/BpT5gAki9.jpg",
