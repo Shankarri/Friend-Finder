@@ -26,11 +26,11 @@
         <div class="row">
             <form class="col-md-12">
                 <div class="form-group">
-                    <label for="name">Name (Required)</label>
+                    <label for="name">Name <span class='text-danger'> (Required) </span></label>
                     <input type="text" class="form-control" id="name" required>
                 </div>
                 <div class="form-group">
-                    <label for="uniqueID">Link to Photo Image (Required) </label>
+                    <label for="uniqueID">Link to Photo Image <span class='text-danger'> (Required) </span></label>
                     <input type="text" class="form-control" id="photo" required>
                 </div>
             </form>
@@ -96,7 +96,7 @@
                 $("#questionGroup").append("<h5><strong> Question " + index + "</strong> </h5>");
                 $("#questionGroup").append("<label>" + question[index - 1] + "</label>");
                 $("#questionGroup").append("<select id='answer" + index + "' class='form-control w-25 mb-3'>" +
-                    "<option disabled selected> Select an option </option>" +
+                    "<option disabled selected value = '0'> Select an option </option>" +
                     "<option value = '1'> 1 (Strongly Disagree) </option>" +
                     "<option value = '2'> 2 </option>" +
                     "<option value = '3'> 3 </option>" +
@@ -108,7 +108,7 @@
                 "name": "",
                 "photo": "",
                 "scores": [],
-            }
+            };
 
             // ------------ On Click of Submit button -------------- //
             $("#submit").on("click", function (event) {
@@ -135,6 +135,7 @@
 
                     // after we get response from the backend, display the data in the model structure
                     $(".modal-body").html("<h3>" + data.name + "</h3>" + "<img class='w-50' alt='Match Image' src='" + data.photo + "'/>");
+                    clearFields();
                 });
 
             });
@@ -161,6 +162,17 @@
                     return false;
                 }
             }
+            // ------------ End of Validation check-------------- //
+            
+            // ------------ Clear Form Elements -------------- //
+                
+            let clearFields = function ()
+            {
+                friendSurvey = { "name": "", "photo": "", "scores": []};
+                $(".form-control").val(" ");
+                $("select").val("0");
+            }
+
         });
     </script>
 </body>
